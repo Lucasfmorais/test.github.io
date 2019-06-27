@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Capítulo 3 - Criando uma árvore de camadas</title>
+</head>
+
+<body>
+    <p id="demo"></p>
+    <script>
+        //var url = "http://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?date=2015:2015&page=4";
+        var url = "proxy.php?a=pjmi";
+        var request_http = new XMLHttpRequest();
+        request_http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                minhafuncao(this);
+            }
+        };
+        request_http.open("GET", url, true);
+        request_http.send();
+
+        function minhafuncao(xml) {
+            var xmlDoc = xml.responseXML;
+            var counter = 0;
+            var meuTexto = "";
+            //console.log("cont:", counter, "texto:", meuTexto, "xmldoc:", xmlDoc.getElementsByTagName('wb:country').length)
+            //console.log(xmlDoc.getElementsByTagName('*'))
+            while (counter < xmlDoc.getElementsByTagName('wb:country').length) {
+                meuTexto += "<br>" + xmlDoc.getElementsByTagName("wb:country")[counter].childNodes[0].nodeValue;
+                //console.log("result:", meuTexto)
+                //console.log("cont:", counter)
+                counter = counter + 1;
+            }
+            document.getElementById("demo").innerHTML = meuTexto
+            console.log("result:", meuTexto)
+        }
+        /*         function minhafuncao(url) {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            document.getElementById("demo").innerHTML =
+                                this.responseText;
+                        }
+                    };
+                    xhttp.open("GET", url, true);
+                    xhttp.send();
+                } */
+    </script>
+</body>
+
+
+</html>
